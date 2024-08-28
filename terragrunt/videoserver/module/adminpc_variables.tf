@@ -14,9 +14,3 @@ variable "adminpc_userdata" {
   description = "Userdata for the adminpc virtual machine"
   default     = null
 }
-
-variable "lan_cidr" {
-  type        = string
-  description = "CIDR of the dmz subnet"
-  default     = "192.168.100.0/24"
-}

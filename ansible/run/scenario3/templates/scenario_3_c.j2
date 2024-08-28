@@ -7,6 +7,7 @@ vars:
   $SERVER_ADDRESS: 192.42.0.254
   $ATTACKER_ADDRESS: 192.42.1.174
   $DNS_SERVER: 192.42.0.233
+  $ADMIN_SERVER: 10.12.0.222
 
 commands:
   - type: shell
@@ -202,7 +203,7 @@ commands:
 
   - type: ssh
     cmd: echo "ssh -i .ssh/rootkey -o StrictHostKeyChecking=no root@192.168.100.23 \"apt update && apt install -y healthcheckd\"" | at now + 2 minute
-    hostname: 192.168.100.223
+    hostname: $ADMIN_SERVER
     username: aecid
     password: aecid
     jmp_hostname:  192.42.2.42

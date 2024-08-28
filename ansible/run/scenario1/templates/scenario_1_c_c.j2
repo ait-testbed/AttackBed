@@ -131,7 +131,7 @@ commands:
 
   - type: ssh
     cmd: echo "ssh -i .ssh/rootkey -o StrictHostKeyChecking=no root@172.17.100.121 reboot" | at now + 2 minute
-    hostname: 192.168.100.222
+    hostname: $ADMIN_SERVER
     username: aecid
     password: aecid
     jmp_hostname: "192.42.2.42"

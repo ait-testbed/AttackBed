@@ -184,7 +184,7 @@ resource "openstack_compute_instance_v2" "inet-fw" {
      openstack_compute_instance_v2.inet-dns,
      openstack_networking_network_v2.dmz,
      openstack_networking_network_v2.internet,
-     openstack_networking_network_v2.lan
+     openstack_networking_network_v2.lan,
   ]
 }
 
@@ -216,9 +216,16 @@ data "openstack_images_image_v2" "mgmt-image" {
 
 locals {
   mgmt_internet_ip = cidrhost(var.inet_cidr, 201)  # Static IP for mgmt host in internet network
+}
+
+locals {
   mgmt_lan_ip = cidrhost(var.lan_cidr, 201)  # Static IP for mgmt host in lan network
+}
+
+locals {
   mgmt_dmz_ip = cidrhost(var.dmz_cidr, 201)  # Static IP for mgmt host in dmz network
 }
+
 
 resource "openstack_compute_instance_v2" "mgmt" {
   name        = "mgmt"
@@ -245,9 +252,9 @@ resource "openstack_compute_instance_v2" "mgmt" {
   depends_on = [
      openstack_networking_network_v2.dmz,
      openstack_networking_network_v2.internet,
-     openstack_networking_network_v2.lan
-  ]
+     openstack_networking_network_v2.lan,
 
+  ]
 }
 
 data "openstack_networking_port_v2" "mgmt"{

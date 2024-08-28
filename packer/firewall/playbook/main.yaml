@@ -40,8 +40,14 @@
                 type: ipv4,
                 interface: { name: $DMZIF, broadcast: detect, options: "routeback,bridge,nosmurfs" }
               }
+            - {
+                name: admin,
+                type: ipv4,
+                interface: { name: $ADMINIF, broadcast: detect, options: "routeback,bridge,nosmurfs" }
+              }
           policy:
             - { source: fw,    dest: all,   policy: ACCEPT }
+            - { source: admin,    dest: all,   policy: ACCEPT }
             - { source: lan,   dest: inet,  policy: ACCEPT }
             - { source: lan,   dest: dmz,  policy: ACCEPT }
             - { source: dmz,   dest: inet,  policy: ACCEPT }
@@ -64,9 +70,11 @@
             - Permit access to SSH
             - { action: SSH/ACCEPT,  source: lan, dest: fw }
             - { action: SSH/ACCEPT,  source: dmz, dest: fw }
+            - { action: SSH/ACCEPT,  source: admin, dest: fw }
             - Permit access to DNS
             - { action: DNS/ACCEPT,  source: lan, dest: fw }
             - { action: DNS/ACCEPT,  source: dmz, dest: fw }
+            - { action: DNS/ACCEPT,  source: admin, dest: fw }
             # - { action: ACCEPT,      source: inet, dest: fw, proto: tcp, dest_port: "443,8006" }
             - PING Rules
             - { action: Ping/ACCEPT, source: all, dest: all }
@@ -78,6 +86,7 @@
             - { name: INETIF, value: ens3 }
             - { name: LANIF, value: ens4 }
             - { name: DMZIF, value: ens5 }
+            - { name: ADMINIF, value: ens6 }
             - { name: REPOSERVER, value: 172.17.100.122}
             - { name: LINUXSHARE, value: 192.168.100.23}
             - { name: VIDEOSERVER, value: 172.17.100.121}

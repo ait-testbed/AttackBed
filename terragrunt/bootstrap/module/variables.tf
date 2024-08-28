@@ -87,3 +87,4 @@ variable "dmz_cidr" {
   description = "CIDR of the dmz subnet"
   default     = "172.17.100.0/24"
 }
+

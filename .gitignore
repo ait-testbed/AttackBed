@@ -1,5 +1,6 @@
 roles/
 venv/
+.venv/
 .env
 .terragrunt-cache/
 .terraform.lock.hcl
