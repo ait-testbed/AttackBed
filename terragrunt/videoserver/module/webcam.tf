@@ -6,6 +6,7 @@ locals {
 #
 # CREATE INSTANCE for "Webcam-Server"
 #
+
 data "template_file" "userdata_webcam" {
   template = "${file("${local.ext_webcam_userdata_file}")}"
 }
@@ -35,7 +36,7 @@ resource "openstack_compute_instance_v2" "webcam" {
   user_data    = local.ext_webcam_userdata_file == null ? null : data.template_cloudinit_config.cloudinitwebcam[0].rendered
 
   network {
-    name = "dmz"
+    uuid = "${data.external.dmz_uuid.result.uuid}"
     fixed_ip_v4 = cidrhost(var.dmz_cidr,80)
   }
 

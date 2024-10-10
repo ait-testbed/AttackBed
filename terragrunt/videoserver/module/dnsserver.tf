@@ -6,6 +6,15 @@ locals {
 #
 # CREATE INSTANCE for "DNS-Server"
 #
+
+data "external" "internet_uuid" {
+  program = ["bash", "./fetch_network_uuid.sh"]
+
+  query = {
+    network_name = "internet"
+  }
+}
+
 data "template_file" "userdata_dnsserver" {
   template = "${file("${local.ext_dnsserver_userdata_file}")}"
 }
@@ -35,7 +44,7 @@ resource "openstack_compute_instance_v2" "dnsserver" {
   user_data    = local.ext_dnsserver_userdata_file == null ? null : data.template_cloudinit_config.cloudinitdnsserver[0].rendered
 
   network {
-    name = "internet"
+    uuid = "${data.external.internet_uuid.result.uuid}"
     fixed_ip_v4 = cidrhost(var.inet_cidr,233)
   }
 

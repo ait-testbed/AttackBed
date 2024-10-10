@@ -6,6 +6,15 @@ locals {
 #
 # CREATE INSTANCE for "VIDEOSERVER"
 #
+
+data "external" "dmz_uuid" {
+  program = ["bash", "./fetch_network_uuid.sh"]
+
+  query = {
+    network_name = "dmz"
+  }
+}
+
 data "template_file" "userdata_videoserver" {
   template = "${file("${local.ext_videoserver_userdata_file}")}"
 }
@@ -35,7 +44,7 @@ resource "openstack_compute_instance_v2" "videoserver" {
   user_data    = local.ext_videoserver_userdata_file == null ? null : data.template_cloudinit_config.cloudinitvideoserver[0].rendered
 
   network {
-    name = "dmz"
+    uuid = "${data.external.dmz_uuid.result.uuid}"
     fixed_ip_v4 = cidrhost(var.dmz_cidr,121)
   }
 

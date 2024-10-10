@@ -6,7 +6,7 @@ variable "webcam_image" {
 variable "webcam_flavor" {
   type        = string
   description = "flavor of the webcam host"
-  default     = "m1.small"
+  default     = "d2-2"
 }
 
 variable "webcam_userdata" {

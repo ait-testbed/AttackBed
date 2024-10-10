@@ -6,7 +6,7 @@ variable "videoserver_image" {
 variable "videoserver_flavor" {
   type        = string
   description = "flavor of the videoserver host"
-  default     = "m1.small"
+  default     = "d2-2"
 }
 
 variable "videoserver_userdata" {

@@ -69,7 +69,7 @@ resource "openstack_compute_instance_v2" "inet-dns" {
   user_data    = local.ext_dns_userdata_file == null ? null : data.template_cloudinit_config.cloudinitdns[0].rendered
 
   network {
-    name = "internet"
+    uuid = "${openstack_networking_network_v2.internet.id}"
     fixed_ip_v4 = cidrhost(var.inet_cidr,514)
   }
 
@@ -166,17 +166,17 @@ resource "openstack_compute_instance_v2" "inet-fw" {
   user_data    = local.fw_userdata_file == null ? null : data.template_cloudinit_config.cloudinitinetfw[0].rendered
 
   network {
-    name = "internet"
+    uuid = "${openstack_networking_network_v2.internet.id}"
     fixed_ip_v4 = cidrhost(var.inet_cidr,254)
   }
 
   network {
-    name = "lan"
+    uuid = "${openstack_networking_network_v2.lan.id}"
     fixed_ip_v4 = cidrhost(var.lan_cidr,254)
   }
 
   network {
-    name = "dmz"
+    uuid = "${openstack_networking_network_v2.dmz.id}"
     fixed_ip_v4 = cidrhost(var.dmz_cidr,254)
   }
 
@@ -228,17 +228,17 @@ resource "openstack_compute_instance_v2" "mgmt" {
   user_data    = local.mgmt_userdata_file == null ? null : data.template_cloudinit_config.cloudinitmgmt[0].rendered
 
   network {
-    name = "internet"
+    uuid = "${openstack_networking_network_v2.internet.id}"
     fixed_ip_v4 = local.mgmt_internet_ip
   }
 
   network {
-    name = "lan"
+    uuid = "${openstack_networking_network_v2.lan.id}"
     fixed_ip_v4 = local.mgmt_lan_ip
   }
 
   network {
-    name = "dmz"
+    uuid = "${openstack_networking_network_v2.dmz.id}"
     fixed_ip_v4 = local.mgmt_dmz_ip
   }
 
